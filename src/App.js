@@ -96,12 +96,9 @@ class App extends Component {
           { <Table list={list} pattern={query} /> }
         </div>
         <div className="interactions">
-          {
-            isLoading ? <Loading /> :
-            <Button onClick={()=> this.fetchSearchTopstories(searchKey, page + 1)}>
-              More
-            </Button>
-          }
+          <ButtonWithLoading isLoading={isLoading} onClick={()=> this.fetchSearchTopstories(searchKey, page + 1)}>
+            More
+          </ButtonWithLoading>
         </div>
       </div>
     );
@@ -131,13 +128,19 @@ const Table = ({ list }) =>
         ) }
   </div>
 
-const Button = ({ onClick, children }) =>
-  <button onClick={onClick} type='button'>
+const Button = ({ onClick, className, children }) =>
+  <button onClick={onClick} className={className} type='button'>
     {children}
   </button>
 
+
 const Loading = () =>
   <div>Loading...</div>
+
+const withLoading = (Component) => ({isLoading, ...rest}) =>
+  isLoading ? <Loading /> : <Component { ...rest } />
+
+const ButtonWithLoading = withLoading(Button);
 
 export default App;
 
