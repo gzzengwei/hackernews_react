@@ -5,6 +5,7 @@
   "devDependencies": {
     "classnames": "^2.2.5",
     "enzyme": "^2.7.1",
+    "font-awesome": "^4.7.0",
     "jest-cli": "^18.1.0",
     "lodash": "^4.17.4",
     "react-addons-test-utils": "^15.4.2",

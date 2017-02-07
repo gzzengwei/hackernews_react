@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import { sortBy } from 'lodash';
 import classNames from 'classnames';
 import './App.css';
+import 'font-awesome/css/font-awesome.css';
 
 const DEFAULT_QUERY = 'redux';
 const DEFAULT_PAGE = 0;
@@ -144,15 +145,20 @@ const Table = ({ list, sortKey, onSort, onDismiss, isSortReverse }) => {
       <div className='table-header'>
         <span style={ {width: '40%'} }>
           <Sort sortKey={'TITLE'} onSort={onSort} activeSortKey={sortKey}>Title</Sort>
+          <span />
+          <IconArrow sortKey={'TITLE'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
         </span>
         <span style={ {width: '30%'} }>
           <Sort sortKey={'AUTHOR'} onSort={onSort} activeSortKey={sortKey}>Author</Sort>
+          <IconArrow sortKey={'AUTHOR'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
         </span>
         <span style={ {width: '10%'} }>
           <Sort sortKey={'COMMENTS'} onSort={onSort} activeSortKey={sortKey}>Comments</Sort>
+          <IconArrow sortKey={'COMMENTS'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
         </span>
         <span style={ {width: '10%'} }>
           <Sort sortKey={'POINTS'} onSort={onSort} activeSortKey={sortKey}>Points</Sort>
+          <IconArrow sortKey={'POINTS'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
         </span>
         <span style={ {width: '10%'} }>
           Archive
@@ -184,9 +190,24 @@ const Sort = ({sortKey, onSort, activeSortKey, children}) => {
       {children}
     </Button>
   )
+};
+
+const IconArrow = ({sortKey, activeSortKey, isSortReverse}) => {
+  const iconActive = sortKey === activeSortKey;
+  const iconClass = classNames('fa', 'fa-fw', {'fa-chevron-up': iconActive && isSortReverse, 'fa-chevron-down': iconActive && !isSortReverse  });
+  return (
+    <i className={iconClass} />
+  );
+};
+
+const Loading = () => {
+  return (
+    <div>
+      Loading...
+      <i className='fa fa-spinner fa-spin fa-fw'/>
+    </div>
+  );
 }
-const Loading = () =>
-  <div>Loading...</div>
 
 const withLoading = (Component) => ({isLoading, ...rest}) =>
   isLoading ? <Loading /> : <Component { ...rest } />
