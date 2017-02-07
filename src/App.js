@@ -35,8 +35,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      result: null,
-      query: DEFAULT_QUERY
+      results: null,
+      query: DEFAULT_QUERY,
+      searchKey: ''
     };
 
     this.setSearchTopstories = this.setSearchTopstories.bind(this);
@@ -50,9 +51,12 @@ class App extends Component {
 
   setSearchTopstories(result) {
     const { hits, page } = result;
-    const oldHits = page === 0 ? [] : this.state.result.hits;
+    const { searchKey } = this.state;
+    const oldHits = page === 0 ? [] : this.state.results[searchKey].hits;
     const updateHits = [...oldHits, ...hits];
-    this.setState({ result: { hits: updateHits, page } });
+    this.setState({
+      results: { ...this.state.results, [searchKey]: { hits: updateHits, page } }
+    });
   }
 
   fetchSearchTopstories(query, page) {
@@ -63,6 +67,7 @@ class App extends Component {
 
   componentDidMount() {
     const { query } = this.state;
+    this.setState({ searchKey: query });
     this.fetchSearchTopstories(query, DEFAULT_PAGE);
   }
 
@@ -72,24 +77,26 @@ class App extends Component {
 
   onSearchSubmit(event) {
     const { query } = this.state;
+    this.setState({ searchKey: query });
     this.fetchSearchTopstories(query, DEFAULT_PAGE);
     event.preventDefault();
   }
 
   render() {
-    const { query, result } = this.state;
-    const page = (result && result.page) || 0;
+    const { query, results, searchKey } = this.state;
+    const page = (results && results[searchKey] && results[searchKey].page) || 0;
+    const list = (results && results[searchKey] && results[searchKey].hits) || [];
     return (
       <div className="page">
         <div className="interactions">
           <Search value={query} onChange={this.onSearchChange} onSubmit={this.onSearchSubmit} />
-          { result && <Table list={result.hits} pattern={query} /> }
+          { <Table list={list} pattern={query} /> }
         </div>
         <div className="interactions">
-          <Button onClick={()=> this.fetchSearchTopstories(query, page + 1)}>
+          <Button onClick={()=> this.fetchSearchTopstories(searchKey, page + 1)}>
             More
           </Button>
-          <Button onClick={()=> this.fetchSearchTopstories(query, page - 1)}>
+          <Button onClick={()=> this.fetchSearchTopstories(searchKey, page - 1)}>
             Previous
           </Button>
         </div>
