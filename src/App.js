@@ -137,45 +137,60 @@ const largeColumn = { width: '40%' }
 const midColumn = { width: '30%' }
 const smallColumn = { width: '15%' }
 
-const Table = ({ list, sortKey, onSort, onDismiss, isSortReverse }) => {
-  const sortedList = SORTS[sortKey](list);
-  const reverseSortedList = isSortReverse ? sortedList.reverse() : sortedList
-  return (
-    <div className='table'>
-      <div className='table-header'>
-        <span style={ {width: '40%'} }>
-          <Sort sortKey={'TITLE'} onSort={onSort} activeSortKey={sortKey}>Title</Sort>
-          <span />
-          <IconArrow sortKey={'TITLE'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
-        </span>
-        <span style={ {width: '30%'} }>
-          <Sort sortKey={'AUTHOR'} onSort={onSort} activeSortKey={sortKey}>Author</Sort>
-          <IconArrow sortKey={'AUTHOR'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
-        </span>
-        <span style={ {width: '10%'} }>
-          <Sort sortKey={'COMMENTS'} onSort={onSort} activeSortKey={sortKey}>Comments</Sort>
-          <IconArrow sortKey={'COMMENTS'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
-        </span>
-        <span style={ {width: '10%'} }>
-          <Sort sortKey={'POINTS'} onSort={onSort} activeSortKey={sortKey}>Points</Sort>
-          <IconArrow sortKey={'POINTS'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
-        </span>
-        <span style={ {width: '10%'} }>
-          Archive
-        </span>
+class Table extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    const {
+      list,
+      sortKey,
+      isSortReverse,
+      onSort,
+      onDismiss
+    } = this.props;
+
+    const sortedList = SORTS[sortKey](list);
+    const reverseSortedList = isSortReverse ? sortedList.reverse() : sortedList;
+    return (
+      <div className='table'>
+        <div className='table-header'>
+          <span style={ {width: '40%'} }>
+            <Sort sortKey={'TITLE'} onSort={onSort} activeSortKey={sortKey}>Title</Sort>
+            <span />
+            <IconArrow sortKey={'TITLE'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
+          </span>
+          <span style={ {width: '30%'} }>
+            <Sort sortKey={'AUTHOR'} onSort={onSort} activeSortKey={sortKey}>Author</Sort>
+            <IconArrow sortKey={'AUTHOR'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
+          </span>
+          <span style={ {width: '10%'} }>
+            <Sort sortKey={'COMMENTS'} onSort={onSort} activeSortKey={sortKey}>Comments</Sort>
+            <IconArrow sortKey={'COMMENTS'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
+          </span>
+          <span style={ {width: '10%'} }>
+            <Sort sortKey={'POINTS'} onSort={onSort} activeSortKey={sortKey}>Points</Sort>
+            <IconArrow sortKey={'POINTS'} isSortReverse={isSortReverse} activeSortKey={sortKey} />
+          </span>
+          <span style={ {width: '10%'} }>
+            Archive
+          </span>
+        </div>
+        {
+          reverseSortedList.map((item) =>
+            <div key={item.objectID} className='table-row'>
+            <span style={largeColumn}><a href={item.url}>{item.title}</a></span>
+            <span style={midColumn}>{item.author}</span>
+            <span style={smallColumn}>{item.points}</span>
+            </div>
+          )
+        }
       </div>
-      {
-        reverseSortedList.map((item) =>
-          <div key={item.objectID} className='table-row'>
-          <span style={largeColumn}><a href={item.url}>{item.title}</a></span>
-          <span style={midColumn}>{item.author}</span>
-          <span style={smallColumn}>{item.points}</span>
-          </div>
-        )
-      }
-    </div>
-  )
- }
+    );
+  }
+}
 
 const Button = ({ onClick, className, children }) =>
   <button onClick={onClick} className={className} type='button'>
