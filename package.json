@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "classnames": "^2.2.5",
     "enzyme": "^2.7.1",
-    "font-awesome": "^4.7.0",
     "jest-cli": "^18.1.0",
-    "lodash": "^4.17.4",
     "react-addons-test-utils": "^15.4.2",
-    "react-scripts": "0.8.5",
     "react-test-renderer": "^15.4.2"
   },
   "dependencies": {
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "font-awesome": "^4.7.0",
+    "lodash": "^4.17.4",
+    "classnames": "^2.2.5",
+    "react-scripts": "0.8.5"
   },
   "scripts": {
     "start": "react-scripts start",
