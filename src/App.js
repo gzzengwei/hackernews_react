@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import logo from './logo.svg';
 import { sortBy } from 'lodash';
 import classNames from 'classnames';
@@ -85,7 +85,7 @@ class App extends Component {
       <div className="page">
         <div className="interactions">
           <Search value={query} onChange={this.onSearchChange} onSubmit={this.onSearchSubmit} />
-          { <Table list={list} onDismiss={this.onDismiss} pattern={query} /> }
+          { <Table list={list} onDismiss={onDismiss} pattern={query} /> }
         </div>
         <div className="interactions">
           <ButtonWithLoading isLoading={isLoading} onClick={()=> this.fetchSearchTopstories(searchKey, page + 1)}>
@@ -119,7 +119,6 @@ class Table extends Component {
       sortKey: 'NONE',
       isSortReverse: false
     };
-
     this.onSort = this.onSort.bind(this);
   }
 
@@ -177,12 +176,28 @@ class Table extends Component {
       </div>
     );
   }
-}
+};
+
+Table.propTypes = {
+  list: PropTypes.array.isRequired,
+  onDismiss: PropTypes.func.isRequired
+};
 
 const Button = ({ onClick, className, type = 'button', children }) =>
   <button onClick={onClick} className={className} type={type}>
     {children}
   </button>
+
+Button.propTypes = {
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  type: PropTypes.string,
+  children: PropTypes.node
+};
+
+Button.defaultProps = {
+  className: ''
+};
 
 const Sort = ({sortKey, onSort, activeSortKey, children}) => {
   const sortClass = classNames('button-inline', {'button-active': sortKey === activeSortKey});
