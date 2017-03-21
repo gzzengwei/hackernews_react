@@ -1,0 +1,9 @@
+.table .table-row span.large-column {
+  width: '40%';
+}
+.table .table-row span.middle-column {
+  width: '30%';
+}
+.table .table-row span.small-column {
+  width: '15%';
+}
